@@ -15,11 +15,20 @@ def all_houses(filename):
       - set[str]: a set of strings
     """
 
-    houses = set()
+  #split the lines at | vertical bar  
+    opened_file = open(filename)
+    #houses = set()
+    house_list = []
+  
+    for line in opened_file:
+      person_line = line.split("|")
+      if person_line[2] != '':
+        house_list.append(person_line[2])
+      
+    house_set = set(house_list)
 
-    # TODO: replace this with your code
+    return house_set
 
-    return houses
 
 
 def students_by_cohort(filename, cohort='All'):
@@ -50,12 +59,26 @@ def students_by_cohort(filename, cohort='All'):
       - list[list]: a list of lists
     """
 
-    students = []
+    opened_file = open(filename)
 
-    # TODO: replace this with your code
+    students = []
+    cohort_list = []
+
+    for line in opened_file:
+      # unpack the list, assign names to each item
+      # strip the right side of /n or spaces or whatever
+      first_name, last_name, house, adviser, cohort_name = line.rstrip().split("|")  
+      if cohort_name is "I":
+        continue
+      if cohort_name is "G":
+        continue
+      full_name = first_name + " " + last_name
+      #cohorts first and make a set
+      cohort_list.append(cohort_name)
+      if cohort in ('All', cohort_name):
+          students.append(full_name)
 
     return sorted(students)
-
 
 def all_names_by_house(filename):
     """Return a list that contains rosters for all houses, ghosts, instructors.
@@ -87,7 +110,8 @@ def all_names_by_house(filename):
     Return:
       - list[list]: a list of lists
     """
-
+    opened_file = open(filename)
+    
     dumbledores_army = []
     gryffindor = []
     hufflepuff = []
@@ -96,9 +120,40 @@ def all_names_by_house(filename):
     ghosts = []
     instructors = []
 
+    for line in opened_file:
+      # unpack the list, assign names to each item
+      # strip the right side of /n or spaces or whatever
+      first_name, last_name, house, adviser, cohort_name = line.rstrip().split("|")  
+      full_name = first_name + " " + last_name
+      if cohort_name is "I":
+        instructors.append(full_name)
+      if cohort_name is "G":
+        ghosts.append(full_name)
+      #cohorts first and make a set
+      if house == "Dumbledore's Army":
+        dumbledores_army.append(full_name)
+      if house == "Gryffindor":
+        gryffindor.append(full_name)
+      if house == "Hufflepuff":
+        hufflepuff.append(full_name)
+      if house == "Ravenclaw":
+        ravenclaw.append(full_name)
+      if house == "Slytherin":
+        slytherin.append(full_name)
+
+    dumbledores_army.sort()
+    gryffindor.sort()
+    hufflepuff.sort()
+    ravenclaw.sort()
+    slytherin.sort()
+    ghosts.sort()
+    instructors.sort()
+
+    houses = [dumbledores_army, gryffindor, hufflepuff, ravenclaw, slytherin, ghosts, instructors]
+
     # TODO: replace this with your code
 
-    return []
+    return houses
 
 
 def all_data(filename):
@@ -119,10 +174,17 @@ def all_data(filename):
     Return:
       - list[tuple]: a list of tuples
     """
-
+    opened_file = open(filename)
     all_data = []
-
-    # TODO: replace this with your code
+    for line in opened_file:
+      # unpack the list, assign names to each item
+      # strip the right side of /n or spaces or whatever
+      first_name, last_name, house, advisor, cohort_name = line.rstrip().split("|")  
+      full_name = first_name + " " + last_name
+      
+      #create tuple for each line
+      line_tuple = (full_name, house, advisor, cohort_name)
+      all_data.append(line_tuple)
 
     return all_data
 
@@ -147,8 +209,17 @@ def get_cohort_for(filename, name):
     Return:
       - str: the person's cohort or None
     """
+    opened_file = open(filename)
 
-    # TODO: replace this with your code
+    for line in opened_file:
+      # unpack the list, assign names to each item
+      # strip the right side of /n or spaces or whatever
+      first_name, last_name, house, advisor, cohort_name = line.rstrip().split("|")  
+      full_name = first_name + " " + last_name
+
+      if full_name == name:
+        return cohort_name
+          
 
 
 def find_duped_last_names(filename):
@@ -165,7 +236,22 @@ def find_duped_last_names(filename):
       - set[str]: a set of strings
     """
 
-    # TODO: replace this with your code
+    opened_file = open(filename)
+    last_name_set = set()
+    last_name_list = []
+
+    for line in opened_file:
+      # unpack the list, assign names to each item
+      # strip the right side of /n or spaces or whatever
+      first_name, last_name, house, advisor, cohort_name = line.rstrip().split("|")  
+
+      if last_name not in last_name_list:
+        last_name_list.append(last_name)
+      else:
+        last_name_set.add(last_name)
+        
+    return last_name_set
+
 
 
 def get_housemates_for(filename, name):
@@ -179,8 +265,36 @@ def get_housemates_for(filename, name):
     >>> get_housemates_for('cohort_data.txt', 'Hermione Granger')
     {'Angelina Johnson', ..., 'Seamus Finnigan'}
     """
+    opened_file = open(filename)
 
-    # TODO: replace this with your code
+    housemates = set()
+
+
+    for line in opened_file:
+      # unpack the list, assign names to each item
+      # strip the right side of /n or spaces or whatever
+      first_name, last_name, house, advisor, cohort_name = line.rstrip().split("|")  
+      full_name = first_name + " " + last_name
+
+      if full_name == name:
+        correct_cohort = cohort_name
+        correct_house = house
+
+    for line in opened_file:
+      first_name, last_name, house, advisor, cohort_name = line.rstrip().split("|")  
+      full_name = first_name + " " + last_name
+
+      if correct_cohort == cohort_name and correct_house == house and full_name != name:
+        housemates.add(full_name)
+
+    #given students name, identify their house and cohort
+
+    #from the house and cohort, find students full names who match both
+
+    #return a list of the full_names
+    
+    return housemates
+
 
 
 ##############################################################################
