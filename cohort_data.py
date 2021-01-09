@@ -265,37 +265,58 @@ def get_housemates_for(filename, name):
     >>> get_housemates_for('cohort_data.txt', 'Hermione Granger')
     {'Angelina Johnson', ..., 'Seamus Finnigan'}
     """
-    opened_file = open(filename)
+    # opened_file = open(filename)
+
+    # housemates = set()
+    # correct_person = None
+
+    # for line in opened_file:
+    #   # unpack the list, assign names to each item
+    #   # strip the right side of /n or spaces or whatever
+    #   first_name, last_name, house, advisor, cohort_name = line.rstrip().split("|")  
+
+    # for person in opened_file:
+      
+    #   if full_name == name:
+    #     correct_person = person
+    #     break
+      
+    # if correct_person:
+    #     correct_name, correct_house, _, correct_cohort = correct_person
+
+    #     for full_name, house, _, cohort in opened_file:
+          
+        
+    #       if ((house, cohort) == (correct_house, correct_cohort)) in opened_file:
+    #         housemates.add(full_name)
+
+    # #given students name, identify their house and cohort
+
+    # #from the house and cohort, find students full names who match both
+
+    # #return a list of the full_names
+    
+    # return housemates
 
     housemates = set()
-
-
-    for line in opened_file:
-      # unpack the list, assign names to each item
-      # strip the right side of /n or spaces or whatever
-      first_name, last_name, house, advisor, cohort_name = line.rstrip().split("|")  
-      full_name = first_name + " " + last_name
-
-      if full_name == name:
-        correct_cohort = cohort_name
-        correct_house = house
-
-    for line in opened_file:
-      first_name, last_name, house, advisor, cohort_name = line.rstrip().split("|")  
-      full_name = first_name + " " + last_name
-
-      if correct_cohort == cohort_name and correct_house == house and full_name != name:
-        housemates.add(full_name)
-
-    #given students name, identify their house and cohort
-
-    #from the house and cohort, find students full names who match both
-
-    #return a list of the full_names
+    correct_person = None
     
+    for person in all_data(filename):
+        full_name, house, advisor, cohort_name = person
+
+        if full_name == name:
+            correct_person = person
+            break
+
+    if correct_person:
+        correct_name, correct_house, _, correct_cohort = correct_person
+
+        for full_name, house, _, cohort_name in all_data(filename):
+            if ((house, cohort_name) == (correct_house, correct_cohort) and
+                    full_name != name):
+                housemates.add(full_name)
+
     return housemates
-
-
 
 ##############################################################################
 # END OF MAIN EXERCISE.  Yay!  You did it! You Rock!
