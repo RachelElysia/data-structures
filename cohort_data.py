@@ -268,35 +268,30 @@ def get_housemates_for(filename, name):
     # opened_file = open(filename)
 
     # housemates = set()
-    # correct_person = None
+  
 
     # for line in opened_file:
     #   # unpack the list, assign names to each item
     #   # strip the right side of /n or spaces or whatever
     #   first_name, last_name, house, advisor, cohort_name = line.rstrip().split("|")  
+    #   full_name = first_name + " " + last_name
 
-    # for person in opened_file:
-      
     #   if full_name == name:
-    #     correct_person = person
-    #     break
-      
-    # if correct_person:
-    #     correct_name, correct_house, _, correct_cohort = correct_person
+    #     correct_cohort = cohort_name
+    #     correct_house = house
 
-    #     for full_name, house, _, cohort in opened_file:
-          
-        
-    #       if ((house, cohort) == (correct_house, correct_cohort)) in opened_file:
-    #         housemates.add(full_name)
+    # for line in opened_file:
+    #   first_name, last_name, house, advisor, cohort_name = line.rstrip().split("|")  
+    #   full_name = first_name + " " + last_name
 
-    # #given students name, identify their house and cohort
+    #   if correct_cohort == cohort_name and correct_house == house and full_name != name:
+    #     housemates.add(full_name)
 
-    # #from the house and cohort, find students full names who match both
+    #given students name, identify their house and cohort
 
-    # #return a list of the full_names
-    
-    # return housemates
+    #from the house and cohort, find students full names who match both
+
+    #return a list of the full_names
 
     housemates = set()
     correct_person = None
@@ -317,6 +312,10 @@ def get_housemates_for(filename, name):
                 housemates.add(full_name)
 
     return housemates
+    
+    return housemates
+
+
 
 ##############################################################################
 # END OF MAIN EXERCISE.  Yay!  You did it! You Rock!
